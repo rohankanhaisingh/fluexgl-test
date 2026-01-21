@@ -8,5 +8,5 @@
     "esModuleInterop": true,
     "sourceMap": true
   },
-  "include": ["src", "dist/data"]
+  "include": ["src", "dist/FluexGL-DSP-WASM"]
 }

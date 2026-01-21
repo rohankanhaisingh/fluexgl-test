@@ -1,43 +1,104 @@
-import { DspPipeline, Channel, LoadAudioSource, AudioClip } from "@fluex/fluexgl-dsp";
+import { DspPipeline, LoadAudioSource, AudioClip, LowPassFilter, StrictMode, SoftClip } from "@fluex/fluexgl-dsp";
+
+let intervalInMs: number = 100;
 
 const button = document.createElement("button");
-button.textContent = "Start";
+button.textContent = "Shoot";
+
+const range = document.createElement("input");
+range.type = "range";
+range.min = "0";
+range.max = "200";
+range.step = "5";
+range.value = intervalInMs.toString();
+
+const label = document.createElement("span");
+label.innerText = range.value;
 
 document.body.appendChild(button);
+document.body.appendChild(range);
+document.body.appendChild(label);
 
-(async function() {
+range.addEventListener("input", function () {
+
+    label.innerText = range.value;
+    intervalInMs = Number(range.value);
+});
+
+(async function () {
 
     const pipeline = new DspPipeline({
-        pathToWasm: "/data/fluexgl-dsp-wasm_bg.wasm",
-        pathToWorklet: "/data/fluexgl-dsp-processor.worklet"
+        pathToWasm: "/FluexGL-DSP-WASM/fluexgl-dsp-wasm_bg.wasm",
+        pathToWorklet: "/FluexGL-DSP-WASM/fluexgl-dsp-processor.worklet",
+        options: {
+            overrideMaxAudioBufferNodes: true
+        }
     });
 
     await pipeline.InitializeDpsPipeline();
-    
+
     const audioDevice = await pipeline.ResolveDefaultAudioOutputDevice();
 
-    if(!audioDevice) return;
+    if (!audioDevice) return;
 
     const master = audioDevice.GetMasterChannel();
-    const context = audioDevice.GetContext();
+    const audioSource = await LoadAudioSource("/meaty-gunshot-101257.mp3");
 
-    const audioSource = await LoadAudioSource("/music.mp3");
+    if (!audioSource) return;
 
-    if(!audioSource) return;
-
+    const channel = audioDevice.CreateChannel();
     const audioClip = new AudioClip(audioSource);
 
-    const channel1 = new Channel(context);
-    const channel2 = new Channel(context);
-    const channel3 = new Channel(context);
+    channel.Send(master);
+    audioClip.Send(channel);
 
-    channel1.Send(channel2);
-    channel2.Send(channel3);
-    channel3.Send(master);
+    const effect1 = new SoftClip();
+    const effect2 = new SoftClip();
+    const effect3 = new SoftClip();
 
-    audioClip.Send(channel1);
+    effect1.label = "Effect1";
+    effect2.label = "Effect2";
+    effect3.label = "Effect3";
 
-    button.addEventListener("click", function() {
-        audioClip.Play();
+    channel.AddEffect(effect1)  
+        .AddEffect(effect2)
+        .AddEffect(effect3);
+        
+    channel.MoveEffectToIndex(effect1, "end");
+
+    let isShooting: boolean = false;
+    let lastTimestamp: number = Date.now();
+
+    audioClip.SetMaxAudioBufferSourceNodes(2200);
+
+    function render() {
+
+        const now = Date.now();
+
+        if (now - lastTimestamp >= intervalInMs) {
+            if (isShooting) {
+
+                audioClip.Play();
+                lastTimestamp = Date.now();
+            }
+        }
+
+        window.requestAnimationFrame(render);
+    }
+
+    button.addEventListener("mousedown", function () {
+        isShooting = true;
     });
+    button.addEventListener("mouseup", function () {
+        isShooting = false;
+        lastTimestamp = Date.now();
+    });
+
+    button.addEventListener("mouseout", function () {
+        isShooting = false;
+        lastTimestamp = Date.now();
+    });
+
+
+    render();
 })()
