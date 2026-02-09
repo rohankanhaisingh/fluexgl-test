@@ -1,0 +1,11 @@
+{
+  "name": "fluexgl-dsp-wasm",
+  "version": "0.4.7",
+  "files": [
+    "fluexgl-dsp-wasm_bg.wasm",
+    "fluexgl-dsp-wasm.js",
+    "fluexgl-dsp-wasm.d.ts"
+  ],
+  "browser": "fluexgl-dsp-wasm.js",
+  "types": "fluexgl-dsp-wasm.d.ts"
+}

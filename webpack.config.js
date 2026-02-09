@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
     mode: "development",
@@ -25,13 +26,15 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             title: "DSP Test",
-            templateContent: `<!doctype html>
-<html>
-  <head><meta charset="utf-8" /></head>
-  <body>
-
-  </body>
-</html>`
+            template: path.resolve(__dirname, "src", "index.html")
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.resolve(__dirname, "src", "bin"),
+                    to: path.resolve(__dirname, "dist", "bin")
+                }
+            ]
         })
     ],
     devServer: {
