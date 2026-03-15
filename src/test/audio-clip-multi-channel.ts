@@ -1,4 +1,4 @@
-import { DspPipeline, LoadAudioSource, AudioClip } from "@fluex/fluexgl-dsp";
+import { Channel, DspPipeline } from "@fluex/fluexgl-dsp";
 
 (async function () {
 
@@ -14,15 +14,8 @@ import { DspPipeline, LoadAudioSource, AudioClip } from "@fluex/fluexgl-dsp";
 
     const audioDevice = await pipeline.ResolveDefaultAudioOutputDevice();
 
-    if (!audioDevice) return;
+    if(!audioDevice) return;
 
     const master = audioDevice.GetMasterChannel();
-    const audioSource = await LoadAudioSource("/sounds/War FX Gun Shot 005.wav");
-
-    if (!audioSource) return;
-
     const channel = audioDevice.CreateChannel();
-    channel.Send(master);
-
-
-})()
+})();

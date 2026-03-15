@@ -1,10 +1,15 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const fs = require("fs");
+const { url } = require("inspector");
+
+const lastArgument = process.argv[process.argv.length - 1],
+    entryFileName = lastArgument !== "--open" ? "test/" + lastArgument + ".ts" : "index-main.ts";
 
 module.exports = {
     mode: "development",
-    entry: "./src/index.ts",
+    entry: "./src/" + entryFileName,
     devtool: "source-map",
     output: {
         filename: "bundle.js",
@@ -25,7 +30,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: "DSP Test",
+            title: "FluexGL Test Environment",
             template: path.resolve(__dirname, "src", "index.html")
         }),
         new CopyWebpackPlugin({
@@ -42,6 +47,7 @@ module.exports = {
         static: {
             directory: path.join(__dirname, "dist")
         },
-        hot: true
+        hot: true,
+        open: false
     }
 };
