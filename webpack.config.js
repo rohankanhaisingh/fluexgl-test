@@ -48,6 +48,5 @@ module.exports = {
             directory: path.join(__dirname, "dist")
         },
         hot: true,
-        open: false
     }
 };
