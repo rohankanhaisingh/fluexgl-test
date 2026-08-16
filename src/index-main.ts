@@ -1,23 +1,14 @@
-import { Renderer, Thread, type ThreadOnLoopEvent } from "@fluex/fluexgl";
+import { Canvas } from "@fluex/fluexgl";
 
 (async function() {
+    
+    const canvasContainer = document.querySelector(".canvas-wrapper") as HTMLElement;
 
-    const canvasWrapper = document.querySelector(".canvas-wrapper") as HTMLDivElement;
-    const canvas = document.querySelector(".scene-canvas") as HTMLCanvasElement;
-
-    const renderer = new Renderer(canvas, {
+    const canvas: Canvas = new Canvas({
         width: innerWidth,
-        height: innerHeight,
-        anchorToElement: canvasWrapper
+        height: innerHeight
     });
 
-    const thread = new Thread();
+    canvas.appendTo(canvasContainer, true);
 
-    await renderer.Initialize();
-
-    thread.AddEventListener("update", function(event: ThreadOnLoopEvent) {
-        renderer.Render();
-    });
-
-    thread.Start();
 })();
