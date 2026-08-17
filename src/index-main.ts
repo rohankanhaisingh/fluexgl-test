@@ -10,5 +10,4 @@ import { Canvas } from "@fluex/fluexgl";
     });
 
     canvas.appendTo(canvasContainer, true);
-
 })();
