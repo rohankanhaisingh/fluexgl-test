@@ -10,16 +10,16 @@ import { AudioClip, Channel, DspPipeline, LoadAudioSource } from "@fluex/fluexgl
         }
     });
 
-    await pipeline.InitializeDpsPipeline();
+    await pipeline.initializeDpsPipeline();
 
-    const audioDevice = await pipeline.ResolveDefaultAudioOutputDevice();
+    const audioDevice = await pipeline.resolveDefaultAudioOutputDevice();
 
     if (!audioDevice) return;
 
-    const master = audioDevice.GetMasterChannel();
+    const master = audioDevice.getMasterChannel();
 
-    const channel1 = audioDevice.CreateChannel();
-    const channel2 = audioDevice.CreateChannel();
+    const channel1 = audioDevice.createChannel();
+    const channel2 = audioDevice.createChannel();
 
     const soundData = await LoadAudioSource("/sounds/War FX Gun Shot 005.wav");
 
@@ -27,17 +27,17 @@ import { AudioClip, Channel, DspPipeline, LoadAudioSource } from "@fluex/fluexgl
 
     const audioClip = new AudioClip(soundData);
 
-    audioClip.Send(channel1);
-    audioClip.Send(channel2);
+    audioClip.send(channel1);
+    audioClip.send(channel2);
 
-    channel1.Send(master);
-    channel2.Send(master);
+    channel1.send(master);
+    channel2.send(master);
 
-    channel1.Pan(-1);
-    channel2.Pan(1);
+    channel1.pan(-1);
+    channel2.pan(1);
 
     window.addEventListener("click", function () {
-        audioClip.Play();
+        audioClip.play();
     });
 
 })();

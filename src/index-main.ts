@@ -1,13 +1,8 @@
-import { Canvas } from "@fluex/fluexgl";
+import { DspPipeline } from "@fluex/fluexgl-dsp";
 
-(async function() {
-    
-    const canvasContainer = document.querySelector(".canvas-wrapper") as HTMLElement;
+const pipeline = new DspPipeline({
+    pathToWasm: "./bin/fluexgl-dsp-wasm_bg.wasm",
+    pathToWorklet: "./bin/fluexgl-dsp-processor.worklet"
+});
 
-    const canvas: Canvas = new Canvas({
-        width: innerWidth,
-        height: innerHeight
-    });
-
-    canvas.appendTo(canvasContainer, true);
-})();
+await pipeline.initializeDpsPipeline();
