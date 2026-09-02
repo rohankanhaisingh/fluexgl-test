@@ -38,6 +38,10 @@ module.exports = {
                 {
                     from: path.resolve(__dirname, "src", "bin"),
                     to: path.resolve(__dirname, "dist", "bin")
+                },
+                {
+                    from: path.resolve(__dirname, "src", "data"),
+                    to: path.resolve(__dirname, "dist", "data")
                 }
             ]
         })
