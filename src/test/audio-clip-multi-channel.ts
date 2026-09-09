@@ -1,4 +1,4 @@
-import { AudioClip, Channel, DspPipeline, LoadAudioSource } from "@fluex/fluexgl-dsp";
+import { AudioClip, DspPipeline, loadAudioSource } from "@fluex/fluexgl-dsp";
 
 (async function () {
 
@@ -21,7 +21,7 @@ import { AudioClip, Channel, DspPipeline, LoadAudioSource } from "@fluex/fluexgl
     const channel1 = audioDevice.createChannel();
     const channel2 = audioDevice.createChannel();
 
-    const soundData = await LoadAudioSource("/sounds/War FX Gun Shot 005.wav");
+    const soundData = await loadAudioSource("/sounds/War FX Gun Shot 005.wav");
 
     if (!soundData) return;
 

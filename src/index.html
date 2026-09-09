@@ -101,9 +101,30 @@
 </head>
 
 <body>
-    <div class="canvas-wrapper">
-        <canvas class="scene-canvas"></canvas>
+    <button id="play-song">Play song</button>
+    <div>
+        <span>Pitch: </span>
+        <input type="range" min=0" max="24" step="0.1" id="pitch">
     </div>
+    <div>
+        <span>Damping: </span>
+        <input type="range" min="0" max="10" id="damping">
+    </div>
+    <div>
+        <span>Room size: </span>
+        <input type="range" step="0.1" min="0" max="10" id="room-size">
+    </div>
+    <div>
+        <span>Mix: </span>
+        <input type="range" min="0" max="1" step="0.01" id="mix">
+    </div>
+    <div>
+        <span>Stereo spread ms: </span>
+        <input type="range" min="0" max="100" id="stereo-spread-ms">
+    </div>
+    <!-- <div class="canvas-wrapper">
+        <canvas class="scene-canvas"></canvas>
+    </div> -->
 </body>
 
 </html>
