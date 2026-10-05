@@ -4,12 +4,11 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const fs = require("fs");
 const { url } = require("inspector");
 
-const lastArgument = process.argv[process.argv.length - 1],
-    entryFileName = lastArgument !== "--open" ? "test/" + lastArgument + ".ts" : "index-main.ts";
-
-module.exports = {
+// Pick a test with: npm run dev -- --env test=spatial-audio-3d
+// Without --env test=..., src/index-main.ts is used.
+module.exports = (env = {}) => ({
     mode: "development",
-    entry: "./src/" + entryFileName,
+    entry: "./src/" + (env.test ? "test/" + env.test + ".ts" : "index-main.ts"),
     devtool: "source-map",
     output: {
         filename: "bundle.js",
@@ -53,4 +52,4 @@ module.exports = {
         },
         hot: true,
     }
-};
+});
