@@ -5,7 +5,7 @@ const fs = require("fs");
 const { url } = require("inspector");
 
 const lastArgument = process.argv[process.argv.length - 1],
-    entryFileName = lastArgument !== "--open" ? "test/" + lastArgument + ".ts" : "index-main.ts";
+    entryFileName = lastArgument !== "--open" ? "test/" + lastArgument + ".ts" : "index.ts";
 
 module.exports = {
     mode: "development",
